@@ -1,0 +1,93 @@
+﻿
+@model IEnumerable<MVCtemplate.Models.Producto>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<section class="container-fluid d-flex flex-row">
+    <div style="width:10%; margin-right:5rem;">
+        <h4>Filtrar por Tipo</h4>
+        @foreach (var tipo in Model.Select(p => p.Tipo).Distinct())
+        {
+            <input type="checkbox" class="tipo-checkbox" id="tipo_@tipo" name="tipo" value="@tipo">
+            <label for="tipo_@tipo">@tipo</label><br>
+        }
+        <h4>Filtrar por Marca</h4>
+        @foreach (var marca in Model.Select(p => p.Marca.nombre).Distinct())
+        {
+            <input type="checkbox" class="marca-checkbox" id="marca_@marca" name="marca" value="@marca">
+            <label for="marca_@marca">@marca</label><br>
+        }
+    </div>
+    <div style="width:80%;">
+        <h2>Nuestros Productos</h2>
+        <p>
+            <a href="@Url.Action("Create")">
+                <img src="~/Content/img/upload.svg" alt="Create Icon" />
+            </a>
+        </p>
+        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-3 g-4">
+            @foreach (var item in Model)
+            {
+                <div class="col">
+                    <div class="card producto-item" data-tipo="@item.Tipo" data-marca="@item.Marca.nombre" style="background-color: #edf8fa; padding:0;">
+                        <a href="@Url.Action("Details", "Productos", new { id = item.Id })" style=" text-decoration: none; color: inherit;">
+                            <img src="@item.Foto" alt="Imagen de @item.Nombre" class="card-img-top w-100" />
+                            <div class="card-body">
+                                <h5 class="card-title text-center">@item.Nombre</h5>
+                                @using (Html.BeginForm("AñadirProductoAlCarrito", "Pedidoes", FormMethod.Post))
+                                {
+                                    @Html.Hidden("idProducto", item.Id)
+                                    <button class="bgBtn btn w-100" type="submit">Añadir al Carrito</button>
+                                }
+                            </div>
+                        </a>
+                        <div class="card-footer d-flex justify-content-between">
+                            <a href="@Url.Action("Edit", new { id = item.Id })">
+                                <img src="~/Content/img/wrench-adjustable.svg" alt="Edit Icon" />
+                            </a>
+                            <a href="@Url.Action("Delete", new { id = item.Id })">
+                                <img src="~/Content/img/trash3-fill.svg" alt="Delete Icon" />
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        const tipoCheckboxes = document.querySelectorAll('.tipo-checkbox');
+        const marcaCheckboxes = document.querySelectorAll('.marca-checkbox');
+
+        tipoCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filtrarProductos);
+        });
+
+        marcaCheckboxes.forEach(checkbox => {
+            checkbox.addEventListener('change', filtrarProductos);
+        });
+
+        function filtrarProductos() {
+            const selectedTipos = Array.from(document.querySelectorAll('.tipo-checkbox:checked')).map(cb => cb.value);
+            const selectedMarcas = Array.from(document.querySelectorAll('.marca-checkbox:checked')).map(cb => cb.value);
+            const items = document.querySelectorAll('.producto-item');
+
+            items.forEach(item => {
+                const itemTipo = item.getAttribute('data-tipo');
+                const itemMarca = item.getAttribute('data-marca');
+                const tipoMatch = selectedTipos.length === 0 || selectedTipos.includes(itemTipo);
+                const marcaMatch = selectedMarcas.length === 0 || selectedMarcas.includes(itemMarca);
+
+                if (tipoMatch && marcaMatch) {
+                    item.style.display = 'block';
+                } else {
+                    item.style.display = 'none';
+                }
+            });
+        }
+    });
+</script>

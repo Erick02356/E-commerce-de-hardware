@@ -1,0 +1,44 @@
+﻿@model IEnumerable<MVCtemplate.Models.Producto>
+
+<!-- División de la fila en columnas responsivas -->
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4">
+    <!-- Iteración sobre cada elemento del modelo -->
+    @foreach (var item in Model)
+    {
+        <!-- Columna de la cuadrícula -->
+        <div class="col">
+            <!-- Tarjeta de producto -->
+            <div class="card producto-item" style="background-color: #edf8fa; padding:0;">
+                <!-- Enlace a la página de detalles del producto -->
+                <a href="@Url.Action("Details", "Productos", new { id = item.Id })" style="text-decoration: none; color: inherit;">
+                    <!-- Imagen del producto -->
+                    <img src="@item.Foto" alt="Imagen de @item.Nombre" class="card-img-top w-100" />
+                    <!-- Cuerpo de la tarjeta -->
+                    <div class="card-body">
+                        <!-- Título del producto -->
+                        <h5 class="card-title text-center">@item.Nombre</h5>
+                        <!-- Formulario para añadir el producto al carrito -->
+                        @using (Html.BeginForm("AñadirProductoAlCarrito", "Pedidoes", FormMethod.Post))
+                        {
+                            <!-- Campo oculto para el id del producto -->
+                            @Html.Hidden("idProducto", item.Id)
+                            <!-- Botón para añadir al carrito -->
+                            <button class="bgBtn btn w-100" type="submit">Añadir al Carrito</button>
+                        }
+                    </div>
+                </a>
+                <!-- Pie de la tarjeta -->
+                <div class="card-footer d-flex justify-content-between">
+                    <!-- Enlace para editar el producto -->
+                    <a href="@Url.Action("Edit", new { id = item.Id })">
+                        <img src="~/Content/img/wrench-adjustable.svg" alt="Edit Icon" />
+                    </a>
+                    <!-- Enlace para eliminar el producto -->
+                    <a href="@Url.Action("Delete", new { id = item.Id })">
+                        <img src="~/Content/img/trash3-fill.svg" alt="Delete Icon" />
+                    </a>
+                </div>
+            </div>
+        </div>
+    }
+</div>

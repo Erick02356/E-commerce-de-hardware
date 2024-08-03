@@ -1,0 +1,105 @@
+﻿@model IEnumerable<MVCtemplate.Models.Pedido>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var antiforgery = @Html.AntiForgeryToken();
+
+}
+
+<div class="container mt-5">
+    <h3>Productos en el carrito de compra</h3>
+    <div class="row">
+        <div class="col-md-8">
+            @foreach (var pedido in Model)
+            {
+                <div class="cart-item d-flex justify-content-between align-items-center">
+                    <img src="@pedido.Producto.Foto" alt="@pedido.Producto.Nombre" class="img-fluid" style="max-width: 100px;" />
+                    <div>
+                        <h5>@pedido.Producto.Nombre</h5>
+                    </div>
+                    <div class="quantity-container">
+                        <select class="quantity-select " data-price="@pedido.Producto.precio" onchange="updateTotal()">
+                            <option value="1" selected>1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                            <option value="6">6</option>
+                        </select>
+                        <span> Cantidad</span>
+
+                    </div>
+                    <div>
+                        <span class="price">$@pedido.Producto.precio</span>
+                    </div>
+                    
+                    <div class="btn btn-danger btn-sm">
+                        <a href="@Url.Action("Delete", new { id = pedido.Id })">
+                            <img src="~/Content/img/trash3-fill.svg" alt="Delete Icon" />
+                        </a>
+                    </div>
+
+                </div>
+
+                
+
+            }
+
+
+
+
+        </div>
+        <div class="col-md-4 cart-summary">
+            <h4>Carrito de compras</h4>
+            <p>Descuentos: <span id="discount">$0</span></p>
+            <p>Subtotal: <span id="subtotal">$@Model.Sum(p => p.Producto.precio)</span> <span id="product-count">(@Model.Count() productos)</span></p>
+            @using (Html.BeginForm("CompletarPedido", "Pedidoes", FormMethod.Post))
+            {
+                @Html.AntiForgeryToken()
+                <button type="submit" class="btn bgForm btn-block">PROCEDER AL PAGO</button>
+            }
+            <a href="http://localhost:55901/Productos" class="d-block btn btn-success text-center mt-3">Continuar comprando</a>
+        </div>
+    </div>
+</div>
+
+<script>
+    function updateTotal() {
+        let total = 0;
+        let items = document.querySelectorAll('.cart-item');
+        items.forEach(item => {
+            const price = parseFloat(item.querySelector('.quantity-select').getAttribute('data-price'));
+            const quantity = parseInt(item.querySelector('.quantity-select').value);
+            total += price * quantity;
+        });
+        document.getElementById('subtotal').textContent = `$${total.toLocaleString()}`;
+        document.getElementById('product-count').textContent = `(${items.length} productos)`;
+    }
+
+    function removeItem(pedidoId, button) {
+        const item = button.closest('.cart-item');
+        // Realiza una solicitud AJAX para eliminar el item del carrito en el servidor
+        fetch(`/Pedidoes/EliminarDelCarrito/${pedidoId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'RequestVerificationToken': $('input[name="__RequestVerificationToken"]').val()
+            }
+        })
+            .then(response => {
+                if (response.ok) {
+                    // Si la eliminación fue exitosa, eliminar el item de la vista
+                    item.remove();
+                    updateTotal();
+                } else {
+                    console.error('Error al eliminar el item del carrito');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+    }
+
+</script>
+
+
+

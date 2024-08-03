@@ -1,0 +1,44 @@
+﻿@model MVCtemplate.Models.Marca
+
+@{
+    ViewBag.Title = "Delete"; // Título de la página
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Diseño de la página
+}
+
+
+
+<div class="container">
+    <h2>Eliminar</h2> <!-- Título de la sección -->
+
+    <h3>Estas seguro que quieres eliminarlo</h3> <!-- Confirmación de eliminación -->
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card">
+                <div class="card-body">
+                    <h4 class="card-title">Marca</h4> <!-- Título de la tarjeta -->
+                    <hr />
+                    <dl class="dl-horizontal">
+                        <!-- Nombre de la marca -->
+                        <dt>
+                            @Html.DisplayNameFor(model => model.nombre)
+                        </dt>
+                        <dd>
+                            @Html.DisplayFor(model => model.nombre)
+                        </dd>
+                    </dl>
+                    <!-- Formulario de confirmación de eliminación -->
+                    @using (Html.BeginForm())
+                    {
+                        @Html.AntiForgeryToken() <!-- Protección contra falsificación de solicitudes (AntiForgeryToken) -->
+                        <div class="form-actions no-color">
+                            <!-- Botón para confirmar la eliminación -->
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            <!-- Enlace para volver a la lista de marcas -->
+                            <a href="@Url.Action("Index")" class="btn btn-secondary">Regresar</a>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

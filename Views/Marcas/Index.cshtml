@@ -1,0 +1,52 @@
+﻿@model IEnumerable<MVCtemplate.Models.Marca>
+
+@{
+    ViewBag.Title = "Index"; // Título de la página
+    Layout = "~/Views/Shared/_Layout.cshtml"; // Diseño de la página
+}
+<section class="px-5">
+    <h2>Marcas</h2> <!-- Título de la sección -->
+    <!-- Enlace para crear una nueva marca -->
+    <a href="@Url.Action("Create")">
+        <img src="~/Content/img/upload.svg" alt="Create Icon" /> <!-- Icono de creación -->
+    </a>
+    <!-- Slogan para las marcas -->
+    <p class="slogan">
+        ¡Encuentra las mejores marcas, solo en nuestra tienda!
+    </p>
+    <!-- Contenedor principal de las tarjetas de marca -->
+    <div class="d-flex flex-column justify-content-around row-gap-5 pt-5">
+        <!-- Ciclo para iterar sobre cada marca en el modelo -->
+        @foreach (var item in Model)
+        {
+            <!-- Tarjeta de marca -->
+            <div class="card " style="width: 18rem; background-color: #edf8fa; ">
+                <div class="card-body">
+                    <!-- Nombre de la marca -->
+                    <h5 class="card-title text-center">@item.nombre</h5>
+                    <!-- Formulario para añadir producto al carrito -->
+                    @using (Html.BeginForm("AñadirProductoAlCarrito", "Pedidoes", FormMethod.Post))
+                    {
+                        <!-- Campo oculto para el ID del producto -->
+                        @Html.Hidden("idProducto", item.Id)
+                    }
+                </div>
+                <!-- Footer de la tarjeta con opciones de edición y eliminación -->
+                <div class="card-footer d-flex justify-content-between">
+                    <!-- Enlace para editar la marca -->
+                    <a href="@Url.Action("Edit", new { id = item.Id })">
+                        <img src="~/Content/img/wrench-adjustable.svg" alt="Edit Icon" /> <!-- Icono de edición -->
+                    </a>
+                    <!-- Enlace para ver detalles de la marca -->
+                    <a href="@Url.Action("Details", "Marca", new { id = item.Id })">
+                        <img src="~/Content/img/backpack4.svg" alt="Edit Icon" /> <!-- Icono de detalles -->
+                    </a>
+                    <!-- Enlace para eliminar la marca -->
+                    <a href="@Url.Action("Delete", new { id = item.Id })">
+                        <img src="~/Content/img/trash3-fill.svg" alt="Delete Icon" /> <!-- Icono de eliminación -->
+                    </a>
+                </div>
+            </div>
+        }
+    </div>
+</section>

@@ -1,0 +1,48 @@
+﻿@model MVCtemplate.Models.Pedido
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container">
+    <!-- Título de la sección -->
+    <h2 class="mt-5 mb-4">Eliminar</h2>
+
+    <div class="card">
+        <div class="card-body">
+            <!-- Título de confirmación de eliminación -->
+            <h3 class="card-title">¿Estas seguro que quieres eliminarlo?</h3>
+
+            <!-- Detalles del pedido -->
+            <dl class="row">
+                <dt class="col-sm-3">Fecha del Pedido:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.FechaPedido)</dd>
+
+                <dt class="col-sm-3">Estado:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Estado)</dd>
+
+                <dt class="col-sm-3">Cliente:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Cliente.Nombre)</dd>
+
+                <dt class="col-sm-3">Foto del Producto:</dt>
+                <dd class="col-sm-9">@Html.DisplayFor(model => model.Producto.Foto)</dd>
+            </dl>
+
+            <!-- Formulario para confirmar la eliminación -->
+            @using (Html.BeginForm())
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="row justify-content-end">
+                    <div class="col-sm-9">
+                        <!-- Botón para eliminar -->
+                        <button type="submit" class="btn btn-danger">Eliminar</button>
+                        <!-- Enlace para regresar a la lista -->
+                        @Html.ActionLink("Regresar a la Lista", "Index", null, new { @class = "btn btn-secondary ml-2" })
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</div>

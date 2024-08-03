@@ -1,0 +1,53 @@
+﻿@model MVCtemplate.Models.Producto
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<!-- Sección principal -->
+<section class="container-fluid w-75">
+
+    <!-- Botón para regresar -->
+    <span class="btn bgForm">
+        @Html.ActionLink("Regresar", "Index", new { @class = "nav-link" })
+    </span>
+
+    <div class="container mt-5">
+        <div class="row">
+            <!-- Columna para la imagen del producto -->
+            <div class="col-md-6">
+                <img src="@Model.Foto" alt="Imagen de @Model.Nombre" class="img-fluid" />
+            </div>
+            <!-- Columna para los detalles del producto -->
+            <div class="col-md-6">
+                <!-- Título del producto -->
+                <h2 class="font-weight-bold">
+                    @Html.DisplayFor(model => model.Nombre)
+                </h2>
+                <!-- Precio del producto -->
+                <h3 class="text-danger">$@Html.DisplayFor(model => model.precio)</h3>
+                <!-- Detalles del producto -->
+                <p>
+                    @Html.DisplayFor(model => model.detalles)
+                </p>
+                <!-- Disponibilidad del producto -->
+                <p>1 disponibles</p>
+                <!-- Formulario para añadir el producto al carrito -->
+                @using (Html.BeginForm("AñadirProductoAlCarrito", "Pedidoes", FormMethod.Post))
+                {
+                    @Html.Hidden("idProducto", Model.Id)
+                    <button class="bgBtn btn w-100" type="submit">Añadir al Carrito</button>
+                }
+            </div>
+            <!-- Información adicional del producto -->
+            <div class="col-md-12 mt-3">
+                <p>
+                    <!-- Marca del producto -->
+                    <strong class="text-capitalize">Marca: </strong> @Html.DisplayFor(model => model.Marca.nombre)<br>
+                    <!-- Tipo del producto -->
+                    <strong>@Html.DisplayNameFor(model => model.Tipo): </strong>@Html.DisplayFor(model => model.Tipo)
+                </p>
+            </div>
+        </div>
+    </div>
+</section>

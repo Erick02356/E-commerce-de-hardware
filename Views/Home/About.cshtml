@@ -1,0 +1,73 @@
+﻿@{
+    ViewBag.Title = "About";
+}
+<main aria-labelledby="title">
+
+    <div class="container ">
+        <div class="abs-center">
+            <h2 id="title" class="text-center">PC COMPONENTES</h2>
+            <h4 class="fst-italic">Potencia tu experiencia, construye con nosotros.</h4>
+
+            <p>
+                Somos una empresa importadora dedicada a la venta al por menor de suministros en computación,
+                a los mejores precios del mercado, ofreciendo las mejores marcas, con la mayor variedad de productos,
+                para satisfacer las necesidades tecnológicas de nuestros clientes.
+            </p>
+
+            <div class="d-flex flex-row column-gap-3">
+                <div class="px-5  w-50">
+                    <h5 class="fw-bold title " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Misión</h5>
+                    <p class="collapse" id="collapseExample">
+                        <span class="card card-body ">
+                            Ofrecer productos y servicios con calidad total, que satisfagan las necesidades tecnológicas del cliente estableciendo un régimen de atención dedicada y personalizada, destacando con su puntualidad, y la eficiencia de un servicio personalizado.
+                        </span>
+                    </p>
+                </div>
+                <div class="px-5  w-50">
+                    <h5 class="fw-bold title " data-bs-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">Visión</h5>
+                    <p class="collapse" id="collapseExample">
+                        <span class="card card-body ">
+                            Ser una empresa líder en el mercado tecnológico ofreciendo a sus clientes los mejores productos y servicios cumpliendo todas las normas de calidad y estableciendo un régimen de atención dedicada al cliente y a la satisfacción de sus necesidades tecnológicas
+                        </span>
+                    </p>
+                </div>
+              
+            </div>
+        </div>
+        <div class="bgForm container m-5 pb-5 border">
+            <div class="contact-form">
+                <h2 class="mb-4 text-center">Contáctanos</h2>
+                <form>
+                    <div class="form-group row">
+                        <label for="name" class="col-sm-2 col-form-label">Nombre</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="name" placeholder="Ingresa tu nombre" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="email" class="col-sm-2 col-form-label">Correo Electrónico</label>
+                        <div class="col-sm-10">
+                            <input type="email" class="form-control" id="email" placeholder="Ingresa tu correo electrónico" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="subject" class="col-sm-2 col-form-label">Asunto</label>
+                        <div class="col-sm-10">
+                            <input type="text" class="form-control" id="subject" placeholder="Ingresa el asunto" required>
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label for="message" class="col-sm-2 col-form-label">Mensaje</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" id="message" rows="5" placeholder="Escribe tu mensaje" required></textarea>
+                        </div>
+                    </div>
+                    <div class="col-sm-12 text-center btn bgBtn">
+                        <button type="submit" class=" btn">Enviar</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+  
+    </div>
+</main>
